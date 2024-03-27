@@ -1,0 +1,46 @@
+import casa.*
+
+test "casa con gastos de reparacion" {
+	casaDePepeYJulian.seRompeAlgo(1000)
+	assert.equals(false, casaDePepeYJulian.enOrden())
+	assert.equals(true, casaDePepeYJulian.hayQueReparar())
+	assert.equals(true, casaDePepeYJulian.hayViveresSuficientes())
+}
+
+test "cuenta con gastos ingresa dinero" {
+	cuentaConGastos.costoDeOperacion(20)
+	casaDePepeYJulian.cuenta(cuentaConGastos)
+	casaDePepeYJulian.depositarSaldo(1000)
+	assert.equals(980, casaDePepeYJulian.consultarSaldo())
+}
+
+
+test "cuenta combinada con saldo en la secundaria y extraccion" {
+	cuentaCorriente.depositar(500)
+	cuentaConGastos.costoDeOperacion(50)
+	cuentaCombinada.cuentaPrimaria(cuentaConGastos)
+	cuentaCombinada.cuentaSecundaria(cuentaCorriente)
+	casaDePepeYJulian.cuenta(cuentaCombinada)
+	
+	casaDePepeYJulian.depositarSaldo(100)
+	casaDePepeYJulian.extraerSaldo(200)
+	
+	assert.equals(50, cuentaCombinada.cuentaPrimaria().saldo())
+	assert.equals(300, cuentaCombinada.cuentaSecundaria().saldo())
+	assert.equals(350, casaDePepeYJulian.consultarSaldo())
+}
+
+
+test "estrategia de ahorro minimo indispensable con calidad igual a 5" {
+	cuentaCorriente.depositar(500)
+	casaDePepeYJulian.viveres(30.00)
+	casaDePepeYJulian.cuenta(cuentaCorriente)
+	minimoIndispensable.calidad(5)
+	casaDePepeYJulian.estrategiaDeAhorro(minimoIndispensable)
+	
+	casaDePepeYJulian.mantenimientoDeLaCasa()
+	
+	assert.equals(40.00, casaDePepeYJulian.viveres())
+	assert.equals(450, casaDePepeYJulian.consultarSaldo())
+}
+
