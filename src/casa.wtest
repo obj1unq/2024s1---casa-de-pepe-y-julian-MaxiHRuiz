@@ -44,3 +44,17 @@ test "estrategia de ahorro minimo indispensable con calidad igual a 5" {
 	assert.equals(450, casaDePepeYJulian.consultarSaldo())
 }
 
+test "mantenimiento de casa con 50% viveres, 100 de reparacion, cuenta corriente con 1000 de saldo y estrategia full "{
+	casaDePepeYJulian.viveres(50.00)
+	casaDePepeYJulian.seRompeAlgo(100)
+	cuentaCorriente.depositar(1000)
+	casaDePepeYJulian.cuenta(cuentaCorriente)
+	casaDePepeYJulian.estrategiaDeAhorro(full)
+	
+	casaDePepeYJulian.mantenimientoDeLaCasa()
+	
+	assert.equals(90.00, casaDePepeYJulian.viveres())
+	assert.equals(800, casaDePepeYJulian.consultarSaldo())
+	assert.equals(100, casaDePepeYJulian.montoReparaciones())
+}
+
